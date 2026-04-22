@@ -1,0 +1,8 @@
+apiVersion: kubeopencode.io/v1alpha1
+kind: Task
+metadata:
+  name: cleanup-test
+spec:
+  agentRef:
+    name: opencode-agent
+  description: "Create file /workspace/cleanup_success.txt with content 'cleanup test successful'. Verify by running: cat /workspace/cleanup_success.txt"

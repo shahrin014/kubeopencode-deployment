@@ -1,0 +1,8 @@
+apiVersion: kubeopencode.io/v1alpha1
+kind: Task
+metadata:
+  name: configure-opencode-test
+spec:
+  agentRef:
+    name: opencode-agent
+  description: "How to configure opencode"
