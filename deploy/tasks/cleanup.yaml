@@ -5,4 +5,6 @@ metadata:
 spec:
   agentRef:
     name: opencode-agent
-  description: "Create file /workspace/cleanup_success.txt with content 'cleanup test successful'. Verify by running: cat /workspace/cleanup_success.txt"
+  commandRef:
+    name: cleanup
+  description: "Find and remove outdated files in /workspace. Look for temporary files (*.tmp, *.bak, *.swp), build artifacts (node_modules, dist, __pycache__), and old log files. List files found and ask for confirmation before deleting."
