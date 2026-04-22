@@ -15,7 +15,7 @@ spec:
         template: "Find and remove outdated files in the project. Look for:\n- Temporary files (e.g., *.tmp, *.bak, *.swp)\n- Build artifacts (e.g., node_modules, dist, build, __pycache__)\n- Generated files that are no longer needed\n- Old log files\n\nList the files found and ask for confirmation before deleting them."
         description: Clean up outdated and temporary files
       rerun-test-deployment:
-        template: "Recreate the k3d cluster, rerun setup.sh. DO NOT RUN ANY OTHER MANUAL TASKS OR SETUP. Everything MUST BE HANDLED by setup.sh. Ensure the test tasks completed successfully, ensure the LLM response is correct on each task. Get server IP address, ensure Kubeopencode is reachable at http://<server IP:8080/"
+        template: "Stop and remove all currently running clusters. Recreate the k3d cluster, rerun setup.sh. DO NOT RUN ANY OTHER MANUAL TASKS OR SETUP. Everything MUST BE HANDLED by setup.sh. Get server IP address, ensure Kubeopencode is reachable at http://<server IP:8080/. Ensure the test tasks completed successfully, ensure the LLM response is correct on each task."
         description: Recreate k3d cluster and rerun test deployment
   credentials:
     - name: opencode
