@@ -21,11 +21,11 @@ kubectl create namespace kubeopencode-system
 helm install kubeopencode oci://quay.io/kubeopencode/helm-charts/kubeopencode -n kubeopencode-system --set server.enabled=true
 ```
 
-### 3. Create ConfigMap from opencode.jsonc
+### 3. Create ConfigMap from opencode.json
 
-Create `opencode.jsonc` locally:
+Create `opencode.json` locally:
 
-```jsonc
+```json
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -47,7 +47,7 @@ Create `opencode.jsonc` locally:
 Generate a ConfigMap from the file:
 
 ```bash
-kubectl create configmap opencode-config --from-file=opencode.jsonc=opencode.jsonc --dry-run=client -o yaml > configmap.output.yaml
+kubectl create configmap opencode-config --from-file=opencode.json=opencode.json --dry-run=client -o yaml > configmap.output.yaml
 kubectl apply -f configmap.output.yaml
 ```
 
