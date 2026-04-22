@@ -5,6 +5,10 @@ metadata:
 spec:
   agentRef:
     name: opencode-agent
-  commandRef:
-    name: cleanup
-  description: "Find and remove outdated files in /workspace. Look for temporary files (*.tmp, *.bak, *.swp), build artifacts (node_modules, dist, __pycache__), and old log files. List files found and ask for confirmation before deleting."
+  description: "Find and remove outdated files in the project. Look for:
+- Temporary files (e.g., *.tmp, *.bak, *.swp)
+- Build artifacts (e.g., node_modules, dist, build, __pycache__)
+- Generated files that are no longer needed
+- Old log files
+
+List the files found and ask for confirmation before deleting them."
