@@ -21,37 +21,7 @@ kubectl create namespace kubeopencode-system
 helm install kubeopencode oci://quay.io/kubeopencode/helm-charts/kubeopencode -n kubeopencode-system --set server.enabled=true
 ```
 
-### 3. Create ConfigMap from opencode.json
-
-Create `volume/.opencode/opencode.json` locally:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "provider": {
-    "opencode": {
-      "options": {
-        "apiKey": "{env:OPENCODE_API_KEY}"
-      }
-    }
-  },
-  "command": {
-    "cleanup": {
-      "template": "Find and remove outdated files in the project. Look for:\n- Temporary files (e.g., *.tmp, *.bak, *.swp)\n- Build artifacts (e.g., node_modules, dist, build, __pycache__)\n- Generated files that are no longer needed\n- Old log files\n\nList the files found and ask for confirmation before deleting them.",
-      "description": "Clean up outdated and temporary files"
-    }
-  }
-}
-```
-
-Generate a ConfigMap from the file:
-
-```bash
-kubectl create configmap opencode-config --from-file=opencode.json=volume/.opencode/opencode.json --dry-run=client -o yaml > configmap.output.yaml
-kubectl apply -f configmap.output.yaml
-```
-
-### 4. Create secrets
+### 3. Create secrets
 
 Create the secret from the API key file:
 
@@ -60,13 +30,13 @@ API_KEY=$(cat /path/to/your-api-key.file) && kubectl create secret generic openc
 kubectl apply -f secrets.output.yaml
 ```
 
-### 5. Create ServiceAccount for the Agent
+### 4. Create ServiceAccount for the Agent
 
 ```bash
 kubectl apply -f deploy/serviceaccount.yaml
 ```
 
-### 6. Apply RBAC fix (if needed)
+### 5. Apply RBAC fix (if needed)
 
 ```bash
 # The helm chart may be missing some permissions. Apply additional RBAC:
@@ -75,7 +45,7 @@ kubectl get clusterrole kubeopencode-controller -o json | jq '.rules[2].resource
 kubectl rollout restart deployment kubeopencode-controller -n kubeopencode-system
 ```
 
-### 7. Create an Agent
+### 6. Create an Agent
 
 Create `deploy/agent.yaml`:
 
@@ -104,7 +74,7 @@ Apply:
 kubectl apply -f deploy/agent.yaml
 ```
 
-### 8. Create Ingress (for external access)
+### 7. Create Ingress (for external access)
 
 ```bash
 kubectl apply -f deploy/ingress.yaml
@@ -116,7 +86,7 @@ Or inline:
 kubectl create ingress opencode --class=traefik --rule="/*=opencode:4096"
 ```
 
-### 9. Verify deployment
+### 8. Verify deployment
 
 ```bash
 # Check pods
@@ -128,11 +98,11 @@ kubectl get agents
 kubectl get deployment -n default
 ```
 
-### 10. Access the service
+### 9. Access the service
 
 Open `http://localhost:8080` in your browser.
 
-### 11. (Optional) Check logs
+### 10. (Optional) Check logs
 
 ```bash
 kubectl logs -n kubeopencode-system -l app=kubeopencode-controller
@@ -143,7 +113,6 @@ kubectl logs -n kubeopencode-system -l app=kubeopencode-controller
 ```bash
 kubectl delete -f deploy/agent.yaml
 kubectl delete -f deploy/serviceaccount.yaml
-kubectl delete configmap opencode-config
 kubectl delete secret opencode-credentials
 helm uninstall kubeopencode -n kubeopencode-system
 k3d cluster delete opencode-cluster
