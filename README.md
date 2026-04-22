@@ -23,7 +23,7 @@ helm install kubeopencode oci://quay.io/kubeopencode/helm-charts/kubeopencode -n
 
 ### 3. Create ConfigMap from opencode.json
 
-Create `opencode.json` locally:
+Create `volume/.opencode/opencode.json` locally:
 
 ```json
 {
@@ -47,7 +47,7 @@ Create `opencode.json` locally:
 Generate a ConfigMap from the file:
 
 ```bash
-kubectl create configmap opencode-config --from-file=opencode.json=opencode.json --dry-run=client -o yaml > configmap.output.yaml
+kubectl create configmap opencode-config --from-file=opencode.json=volume/.opencode/opencode.json --dry-run=client -o yaml > configmap.output.yaml
 kubectl apply -f configmap.output.yaml
 ```
 

@@ -28,13 +28,17 @@ kubectl apply -f https://raw.githubusercontent.com/kubeopencode/kubeopencode/mai
 echo "=== Creating namespace ==="
 kubectl create namespace default --dry-run=client -o yaml | kubectl apply -f - || true
 
-echo "=== Creating ConfigMap from opencode.jsonc ==="
-kubectl create configmap opencode-config --from-file=opencode.json="${WORKSPACE_DIR}/opencode.json" --dry-run=client -o yaml | kubectl apply -f -
+echo "=== Creating ConfigMap from opencode.json ==="
+kubectl create configmap opencode-config --from-file=opencode.json="${WORKSPACE_DIR}/volume/.opencode/opencode.json" --dry-run=client -o yaml | kubectl apply -f -
 
 echo "=== Creating credentials secret ==="
 API_KEY_FILE="/mnt/vm-shared-volume/.config/opencode/secrets/opencode-zen.key"
-API_KEY=$(cat "${API_KEY_FILE}")
-kubectl create secret generic opencode-credentials --from-literal=OPENCODE_API_KEY="${API_KEY}" -n default --dry-run=client -o yaml | tee "${WORKSPACE_DIR}/deploy/secrets/credentials.yaml" | kubectl apply -f -
+if [ -f "${API_KEY_FILE}" ]; then
+  API_KEY=$(cat "${API_KEY_FILE}")
+  kubectl create secret generic opencode-credentials --from-literal=OPENCODE_API_KEY="${API_KEY}" -n default --dry-run=client -o yaml | tee "${WORKSPACE_DIR}/deploy/secrets/credentials.yaml" | kubectl apply -f -
+else
+  echo "Warning: API key file not found at ${API_KEY_FILE}"
+fi
 
 echo "=== Applying ServiceAccount ==="
 kubectl apply -f "${WORKSPACE_DIR}/deploy/serviceaccount.yaml"
