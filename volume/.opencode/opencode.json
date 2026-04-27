@@ -7,11 +7,5 @@
         "apiKey": "{env:OPENCODE_API_KEY}"
       }
     }
-  },
-  "command": {
-    "cleanup": {
-      "template": "Find and remove outdated files in the project. Look for:\n- Temporary files (e.g., *.tmp, *.bak, *.swp)\n- Build artifacts (e.g., node_modules, dist, build, __pycache__)\n- Generated files that are no longer needed\n- Old log files\n\nList the files found and ask for confirmation before deleting them.",
-      "description": "Clean up outdated and temporary files"
-    }
   }
 }

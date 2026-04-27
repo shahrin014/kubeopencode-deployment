@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubeopencode-server
+  namespace: kubeopencode-system
+spec:
+  routes:
+  - kind: Rule
+    match: PathPrefix(`/`)
+    services:
+    - kind: Service
+      name: kubeopencode-server
+      port: 2746

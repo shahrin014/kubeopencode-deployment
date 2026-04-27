@@ -91,11 +91,11 @@ kubectl create ingress opencode --class=traefik --rule="/*=opencode:4096"
 ```bash
 # Check pods
 kubectl get pods -n kubeopencode-system
-kubectl get pods -n default
+kubectl get pods -n kubeopencode-default
 
 # Check agent
 kubectl get agents
-kubectl get deployment -n default
+kubectl get deployment -n kubeopencode-default
 ```
 
 ### 9. Access the service

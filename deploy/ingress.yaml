@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: opencode-agent
-  namespace: default
+  namespace: kubeopencode-default
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
